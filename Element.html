@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element Table</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #container {
+            width: 99%;
+            max-width: 1600px;
+            height: 730px;
+            border: 2px solid black;
+            padding: 2px;
+            box-sizing: border-box;
+        }
+
+        #element {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(23, 24, 24);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title {
+            color: white;
+            font-size: 50px;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px white;
+            font-style: italic;
+            transition: all 0.3s ease;
+        }
+
+        .title:hover {
+            color: red;
+            box-shadow: 5px 5px 20px rgb(2, 187, 187);
+            font-size: 60px;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        #bottom-table {
+            position: absolute;
+            margin-left: 102px;
+            width: 60%;
+            height: 120px;
+            bottom: 50px;
+            border-radius: 10px;
+            border: 2px solid white;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .row:last-child {
+            margin-bottom: 0;
+        }
+
+        .cell {
+            flex: 1;
+            height: 50px;
+            border: 2px solid blue;
+            border-radius: 10px;
+            box-sizing: border-box;
+            transition: all 0.5s ease;
+            background: linear-gradient(135deg, rgba(0, 0, 255, 0.1), rgba(0, 100, 255, 0.3));
+            position: relative;
+        }
+
+        .cell:hover {
+            border-color: cyan;
+            background: linear-gradient(135deg, cyan, rgba(20, 55, 108, 0.5));
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.8);
+            transform: scale(1.5);
+            z-index: 100;
+        }
+        #left-table {
+            height: 450px;
+            width: 13%;
+            border-radius: 10px;
+            position: absolute;
+            top: 90px;
+            left: 140.5px;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            border: 2px solid white;
+        }
+        #left-table .row1 {
+            position: relative;
+            width: 50px;
+            height: 420px;
+            margin-top: 15px;
+            margin-left: 10px;
+            border-radius: 10px;
+            flex-direction: column;  
+            gap: 3px;
+            display: flex;
+        }
+        #left-table .row2 {
+            position: relative;
+            width: 50px;
+            height: 350px;
+            margin-top: 83px;
+            margin-left: 8px;
+            border-radius: 10px;
+            flex-direction: column; 
+            gap: 3px;
+            display: flex;
+        }
+        #left-table .row3 {
+            position: relative;
+            width: 50px;
+            height: 228px;
+            margin-top: 203px;
+            margin-left: 7px;
+            border-radius: 10px;
+            flex-direction: column;           
+            gap: 3px;
+            display: flex;
+        }
+        #center-table {
+            position: absolute;
+            top: 290px;
+            left: 23.5%;
+            width: 40%;
+            height: 250px;
+            border-radius: 10px;
+            border: 2px solid white;
+            padding: 5px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        #right-table {
+            position: absolute;
+            top: 90px;
+            right: 160px;
+            width: 25%;
+            height: 450px;
+            border-radius: 10px;
+            border: 2px solid white;
+            padding: 1px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        #right-table .row1{
+            position: relative;
+            width: 50px;
+            height: 350px;
+            margin-top: 80px;
+            margin-left: 7px;
+            border-radius: 10px;
+            flex-direction: column; 
+            gap: 1px;
+            display: flex;
+        }
+        #right-table .row6{
+            position: relative;
+            width: 50px;
+            height: 420px;
+            margin-top: 10px;
+            margin-right: 10px;
+            border-radius: 10px;
+            flex-direction: column; 
+            gap: 1px;
+            display: flex;
+        }
+        p {
+            text-align: center; 
+            font-size: 14px; 
+            font-weight: bold; 
+            line-height: 1; 
+            color: white;
+        }
+        .overlay{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8); /* FIXED */
+    z-index: 999;
+}
+
+        .overlay.active{
+            display: block;
+        }
+        .popup {
+    display: none;        /* IMPORTANT */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #16213e;
+    padding: 30px;
+    border: 2px solid cyan;
+    border-radius: 10px;
+    width: 420px;
+    z-index: 1000;        /* IMPORTANT */
+}
+
+        .popup.active{
+            display: block;
+        }
+        .popup h2 {
+            color: cyan;
+            font-size: 40px;
+        }
+        .info-row{
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid  cyan;
+            padding: 6px 0;
+            color: white;
+        }
+        button {
+            background: none;
+            color: cyan;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        
+        <!--Main-->
+        <div id="element">
+
+            <i class="title">Element Table</i>
+
+            <div id="left-table">
+
+                <div class="row1">
+                    <div class="cell"onclick="openPopup('H', 1, 'Hydrogen', '1.008', 'Non-metal', 'Lightest element forms water')"><p> <br>  1 H <br> <span style="font-size: 10px;">Hydrogen</span> </p></div>
+                    <div class="cell"onclick="openPopup('Li', 3, 'Lithium', '6.941', 'Alkali metal', 'Rechargeable batteries')"><p> <br>  3 Li <br> <span style="font-size: 10px;">Lithium</span> </p></div>
+                    <div class="cell"onclick="openPopup('Na', 11, 'Sodium', '22.990', 'Alkali metal', 'Common salt component')"><p> <br>  11Na <br> <span style="font-size: 10px;">Sodium</span> </p></div>
+                    <div class="cell"onclick="openPopup('K', 19, 'Potassium', '39.098', 'Alkali metal', 'Muscle function')"><p> <br>  19K <br> <span style="font-size: 10px;">Potassium</span> </p></div>
+                    <div class="cell"onclick="openPopup('Rb', 37, 'Rubidium', '85.468', 'Alkali metal', 'Highly reactive')"><p> <br>  37 Rb <br> <span style="font-size: 10px;">Rubidium</span> </p></div>
+                    <div class="cell"onclick="openPopup('Cs', 55, 'Cesium', '132.905', 'Alkali metal', 'Atomic clocks')"><p> <br>  55 Cs <br> <span style="font-size: 10px;">Cesium</span> </p></div>
+                    <div class="cell"onclick="openPopup('Fr', 87, 'Francium', '223', 'Alkali metal', 'Extremely rare')"><p> <br>  87 Fr <br> <span style="font-size: 10px;">Francium</span> </p></div>
+                </div>
+
+                <div class="row2">
+                    <div class="cell" onclick="openPopup('Be', 4, 'Beryllium', '9.012', 'Alkaline earth metal', 'Aerospace material')"><p> <br> 4 Be <br> <span style="font-size: 10px;">Beryllium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Mg', 12, 'Magnesium', '24.305', 'Alkaline earth metal', 'Burns bright')"><p> <br> 12 Mg <br> <span style="font-size: 10px;">Magnesium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ca', 20, 'Calcium', '40.078', 'Alkaline earth metal', 'Bones & teeth')"><p> <br> 20 Ca <br> <span style="font-size: 10px;">Calcium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Sr', 38, 'Strontium', '87.62', 'Alkaline earth metal', 'Fireworks (red)')"><p> <br> 38 Sr <br> <span style="font-size: 10px;">Strontium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ba', 56, 'Barium', '137.327', 'Alkaline earth metal', 'Medical imaging')"><p> <br> 56 Ba <br> <span style="font-size: 10px;">Barium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ra', 88, 'Radium', '226', 'Alkaline earth metal', 'Radioactive')"><p> <br> 88 Ra <br> <span style="font-size: 10px;">Radium</span> </p></div>
+                </div>
+
+                <div class="row3">
+                    <div class="cell" onclick="openPopup('Sc', 21, 'Scandium', '44.956', 'Transition metal', 'Alloys')"><p> <br>  21 Sc <br> <span style="font-size: 10px;">Scandium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Y', 39, 'Yttrium', '88.906', 'Transition metal', 'LEDs, lasers')"><p> <br>  39 Y <br> <span style="font-size: 10px;">Yttrium</span> </p></div>
+                    <div class="cell" onclick="openPopup('La', 57, 'Lanthanum', '138.905', 'Lanthanide', 'Camera lenses')"><p> <br>  57 La <br> <span style="font-size: 10px;">Lanthanum</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ac', 89, 'Actinium', '227', 'Actinide', 'Radioactive')"><p> <br>  89 Ac <br> <span style="font-size: 10px;">Actinium</span> </p></div>
+                </div>
+            </div>
+
+            <div id="center-table">
+                <div class="row">
+                    <div class="cell" onclick="openPopup('Ti', 22, 'Titanium', '47.867', 'Transition metal', 'Strong, light')"><p> <br>  22 Ti <br> <span style="font-size: 10px;">Titanium</span> </p></div>
+                    <div class="cell" onclick="openPopup('V', 23, 'Vanadium', '50.941', 'Transition metal', 'Steel additive')"><p> <br>  23 V <br> <span style="font-size: 10px;">Vanadium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Cr', 24, 'Chromium', '51.996', 'Transition metal', 'Stainless steel')"><p> <br>  24 Cr <br> <span style="font-size: 10px;">Chromium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Mn', 25, 'Manganese', '54.938', 'Transition metal', 'Steel strength')"><p> <br>  25 Mn <br> <span style="font-size: 10px;">Manganese</span> </p></div>
+                    <div class="cell" onclick="openPopup('Fe', 26, 'Iron', '55.845', 'Transition metal', 'Construction')"><p> <br>  26 Fe <br> <span style="font-size: 10px;">Iron</span> </p></div>
+                    <div class="cell" onclick="openPopup('Co', 27, 'Cobalt', '58.933', 'Transition metal', 'Batteries')"><p> <br>  27 Co <br> <span style="font-size: 10px;">Cobalt</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ni', 28, 'Nickel', '58.693', 'Transition metal', 'Coins')"><p> <br>  28 Ni <br> <span style="font-size: 10px;">Nickel</span> </p></div>
+                    <div class="cell" onclick="openPopup('Cu', 29, 'Copper', '63.546', 'Transition metal', 'Electrical wiring')"><p> <br>  29 Cu <br> <span style="font-size: 10px;">Copper</span> </p></div>
+                    <div class="cell" onclick="openPopup('Zn', 30, 'Zinc', '65.38', 'Transition metal', 'Galvanization')"><p> <br>  30 Zn <br> <span style="font-size: 10px;">Zinc</span> </p></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="openPopup('Zr', 40, 'Zirconium', '91.224', 'Transition metal', 'Nuclear reactors')"><p> <br>  40 Zr <br> <span style="font-size: 10px;">Zirconium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Nb', 41, 'Niobium', '92.906', 'Transition metal', 'Superconductors')"><p> <br>  41 Nb <br> <span style="font-size: 10px;">Niobium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Mo', 42, 'Molybdenum', '95.95', 'Transition metal', 'High‑temp strength')"><p> <br>  42 Mo <br> <span style="font-size: 10px;">Molybdenum</span> </p></div>
+                    <div class="cell" onclick="openPopup('Tc', 43, 'Technetium', '98', 'Transition metal', 'Radioactive')"><p> <br>  43 Tc <br> <span style="font-size: 10px;">Technetium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ru', 44, 'Ruthenium', '101.07', 'Transition metal', 'Electronics')"><p> <br>  44 Ru <br> <span style="font-size: 10px;">Ruthenium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Rh', 45, 'Rhodium', '102.905', 'Transition metal', 'Catalysts')"><p> <br>  45 Rh <br> <span style="font-size: 10px;">Rhodium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Pd', 46, 'Palladium', '106.42', 'Transition metal', 'Jewelry')"><p> <br>  46 Pd <br> <span style="font-size: 10px;">Palladium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ag', 47, 'Silver', '107.868', 'Transition metal', 'Best conductor')"><p> <br>  47 Ag <br> <span style="font-size: 10px;">Silver</span> </p></div>
+                    <div class="cell" onclick="openPopup('Cd', 48, 'Cadmium', '112.414', 'Transition metal', 'Batteries')"><p> <br>  48 Cd <br> <span style="font-size: 10px;">Cadmium</span> </p></div>
+                </div>
+                <div class="row">
+                    <div class="cell" onclick="openPopup('Hf', 72, 'Hafnium', '178.49', 'Transition metal', 'Control rods')"><p> <br>  72 Hf <br> <span style="font-size: 10px;">Hafnium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ta', 73, 'Tantalum', '180.948', 'Transition metal', 'Corrosion‑resistant')"><p> <br>  73 Ta <br> <span style="font-size: 10px;">Tantalum</span> </p></div>
+                    <div class="cell" onclick="openPopup('W',  74, 'Tungsten', '183.84', 'Transition metal', 'Highest melting point')"><p> <br>  74 W <br> <span style="font-size: 10px;">Tungsten</span> </p></div>
+                    <div class="cell" onclick="openPopup('Re', 75, 'Rhenium', '186.207', 'Transition metal', 'Jet engines')"><p> <br>  75 Re <br> <span style="font-size: 10px;">Rhenium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Os', 76, 'Osmium', '190.23', 'Transition metal', 'Densest element')"><p> <br>  76 Os <br> <span style="font-size: 10px;">Osmium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ir', 77, 'Iridium', '192.217', 'Transition metal', 'Corrosion‑resistant')"><p> <br>  77 Ir <br> <span style="font-size: 10px;">Iridium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Pt', 78, 'Platinum', '195.08', 'Transition metal', 'Catalysts')"><p> <br>  78 Pt <br> <span style="font-size: 10px;">Platinum</span> </p></div>
+                    <div class="cell" onclick="openPopup('Au', 79, 'Gold', '196.967', 'Transition metal', 'Precious metal')"><p> <br>  79 Au <br> <span style="font-size: 10px;">Gold</span> </p></div>
+                    <div class="cell" onclick="openPopup('Hg', 80, 'Mercury', '200.59', 'Transition metal', 'Liquid metal')"><p> <br>  80 Hg<br><span style="font-size: 10px;">Mercury</span></p></div>
+                </div>
+               
+
+                <div class="row">
+                    <div class="cell" onclick="openPopup('Rf', 104, 'Rutherfordium', '267', 'Transition metal', 'Superheavy')"> <p> <br>  104 Rf <br> <span style="font-size: 10px;">Rutherfordium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Db', 105, 'Dubnium', '268', 'Transition metal', 'Superheavy')"> <p> <br>  105 Db <br> <span style="font-size: 10px;">Dubnium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Sg', 106, 'Seaborgium', '269', 'Transition metal', 'Superheavy')"> <p> <br>  106 Sg <br> <span style="font-size: 10px;">Seaborgium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Bh', 107, 'Bohrium', '270', 'Transition metal', 'Superheavy')"> <p> <br>  107 Bh <br> <span style="font-size: 10px;">Bohrium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Hs', 108, 'Hassium', '277', 'Transition metal', 'Superheavy')"> <p> <br>  108 Hs <br> <span style="font-size: 10px;">Hassium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Mt', 109, 'Meitnerium', '278', 'Transition metal', 'Superheavy')"> <p> <br>  109 Mt <br> <span style="font-size: 10px;">Meitnerium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ds', 110, 'Darmstadtium', '281', 'Transition metal', 'Superheavy')"> <p> <br>  110 Ds <br> <span style="font-size: 10px;">Darmstadtium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Rg', 111, 'Roentgenium', '282', 'Transition metal', 'Superheavy')"> <p> <br>  111 Rg <br> <span style="font-size: 10px;">Roentgenium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Cn', 112, 'Copernicium', '285', 'Transition metal', 'Superheavy')"> <p> <br>  112 Cn <br> <span style="font-size: 10px;">Copernicium</span> </p></div>
+                </div>
+            </div>
+
+            <div id="right-table">
+                <div class="row1">
+                    <div class="cell" onclick="openPopup('B', 5, 'Boron', '10.81', 'Metalloid', 'Heat‑resistant glass')"> <p> <br> 5 B <br> <span style="font-size: 10px;">Boron</span> </p></div>
+                    <div class="cell" onclick="openPopup('Al', 13, 'Aluminum', '26.982', 'Post-transition metal', 'Lightweight')"> <p> <br> 13 Al <br> <span style="font-size: 10px;">Aluminum</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ga', 31, 'Gallium', '72.63', 'Post-transition metal', 'Melts in hand')"> <p> <br> 31 Ga <br> <span style="font-size: 10px;">Gallium</span> </p></div>
+                    <div class="cell" onclick="openPopup('In', 49, 'Indium', '114.82', 'Post-transition metal', 'Touch screens')"> <p> <br> 49 In <br> <span style="font-size: 10px;">Indium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Tl', 81, 'Thallium', '204.38', 'Post-transition metal', 'Toxic')"> <p> <br> 81 Tl <br> <span style="font-size: 10px;">Thallium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Nh', 113, 'Nihonium', '286', 'Post-transition metal', 'Synthetic')"> <p> <br> 113 Nh <br> <span style="font-size: 10px;">Nihonium</span> </p></div>
+                </div>
+                <div class="row1">
+                    <div class="cell" onclick="openPopup('C', 6, 'Carbon', '12', 'Nonmetal', 'Basis of life')"> <p> <br> 6 C <br> <span style="font-size: 10px;">Carbon</span> </p></div>
+                    <div class="cell" onclick="openPopup('Si', 14, 'Silicon', '28.085', 'Metalloid', 'Computer chips')"> <p> <br> 14 Si <br> <span style="font-size: 10px;">Silicon</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ge', 32, 'Germanium', '72.63', 'Metalloid', 'Semiconductor')"> <p> <br> 32 Ge <br> <span style="font-size: 10px;">Germanium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Sn', 50, 'Tin', '118.71', 'Post-transition metal', 'Soldering')"> <p> <br> 50 Sn <br> <span style="font-size: 10px;">Tin</span> </p></div>
+                    <div class="cell" onclick="openPopup('Pb', 82, 'Lead', '207.2', 'Post-transition metal', 'Radiation shield')"> <p> <br> 82 Pb <br> <span style="font-size: 10px;">Lead</span> </p></div>
+                    <div class="cell" onclick="openPopup('Fl', 114, 'Flerovium', '289', 'Post-transition metal', 'Synthetic')"> <p> <br> 114 Fl <br> <span style="font-size: 10px;">Flerovium</span> </p></div>
+                </div>
+                <div class="row1">
+                    <div class="cell" onclick="openPopup('N', 7, 'Nitrogen', '14.007', 'Nonmetal', '78% of air')"> <p> <br> 7 N <br> <span style="font-size: 10px;">Nitrogen</span> </p></div>
+                    <div class="cell" onclick="openPopup('P', 15, 'Phosphorus', '30.974', 'Nonmetal', 'Fertilizers')"> <p> <br> 15 P <br> <span style="font-size: 10px;">Phosphorus</span> </p></div>
+                    <div class="cell" onclick="openPopup('As', 33, 'Arsenic', '74.922', 'Metalloid', 'Toxic')"> <p> <br> 33 As <br> <span style="font-size: 10px;">Arsenic</span> </p></div>
+                    <div class="cell" onclick="openPopup('Sb', 51, 'Antimony', '121.76', 'Metalloid', 'Flame retardant')"> <p> <br> 51 Sb <br> <span style="font-size: 10px;">Antimony</span> </p></div>
+                    <div class="cell" onclick="openPopup('Bi', 83, 'Bismuth', '208.98', 'Post-transition metal', 'Low toxicity')"> <p> <br> 83 Bi <br> <span style="font-size: 10px;">Bismuth</span> </p></div>
+                    <div class="cell" onclick="openPopup('Mc', 115, 'Moscovium', '290', 'Post-transition metal', 'Synthetic')"> <p> <br> 115 Mc <br> <span style="font-size: 10px;">Moscovium</span> </p></div>
+                </div>
+                <div class="row1">
+                    <div class="cell" onclick="openPopup('O', 8, 'Oxygen', '15.999', 'Nonmetal', 'Respiration')"> <p> <br> 8 O <br> <span style="font-size: 10px;">Oxygen</span> </p></div>
+                    <div class="cell" onclick="openPopup('S', 16, 'Sulfur', '32.06', 'Nonmetal', 'Yellow solid')"> <p> <br> 16 S <br> <span style="font-size: 10px;">Sulfur</span> </p></div>
+                    <div class="cell" onclick="openPopup('Se', 34, 'Selenium', '78.97', 'Nonmetal', 'Electronics')"> <p> <br> 34 Se <br> <span style="font-size: 10px;">Selenium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Te', 52, 'Tellurium', '127.60', 'Metalloid', 'Semiconductor')"> <p> <br> 52 Te <br> <span style="font-size: 10px;">Tellurium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Po', 84, 'Polonium', '209', 'Metalloid', 'Radioactive')"> <p> <br> 84 Po <br> <span style="font-size: 10px;">Polonium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Lv', 116, 'Livermorium', '293', 'Post-transition metal', 'Synthetic')"> <p> <br> 116 Lv <br> <span style="font-size: 10px;">Livermorium</span> </p></div>
+                </div>
+                <div class="row1">
+                    <div class="cell" onclick="openPopup('F', 9, 'Fluorine', '9', 'Nonmetal', 'Highly reactive')"> <p> <br> 9 F <br> <span style="font-size: 10px;">Fluorine</span> </p></div>
+                    <div class="cell" onclick="openPopup('Cl', 17, 'Chlorine', '35.45', 'Nonmetal', 'Disinfectant')"> <p> <br> 17 Cl <br> <span style="font-size: 10px;">Chlorine</span> </p></div>
+                    <div class="cell" onclick="openPopup('Br', 35, 'Bromine', '79.90', 'Halogen', 'Red liquid')"> <p> <br> 35 Br <br> <span style="font-size: 10px;">Bromine</span> </p></div>
+                    <div class="cell" onclick="openPopup('I', 53, 'Iodine', '126.90', 'Nonmetal', 'Black solid')"> <p> <br> 53 I <br> <span style="font-size: 10px;">Iodine</span> </p></div>
+                    <div class="cell" onclick="openPopup('At', 85, 'Astatine', '210', 'Metalloid', 'Rare radioactive')"> <p> <br> 85 At <br> <span style="font-size: 10px;">Astatine</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ts', 117, 'Tennessine', '294', 'Post-transition metal', 'Synthetic')"> <p> <br> 117 Ts <br> <span style="font-size: 10px;">Tennessine</span> </p></div>
+                </div>
+                <div class="row6">
+                    <div class="cell" onclick="openPopup('He', 2, 'Helium', '4.0026', 'Noble gas', 'Inert gas, balloons')"> <p> <br> 2 He<br> <span style="font-size: 10px;">Helium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ne', 10, 'Neon', '20.180', 'Noble gas', 'Neon lights')"> <p> <br> 10 Ne <br> <span style="font-size: 10px;">Neon</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ar', 18, 'Argon', '39.948', 'Noble gas', 'Welding gas')"> <p> <br> 18 Ar <br> <span style="font-size: 10px;">Argon</span> </p></div>
+                    <div class="cell" onclick="openPopup('Kr', 36, 'Krypton', '83.798', 'Noble gas', 'Lighting')"> <p> <br> 36 Kr <br> <span style="font-size: 10px;">Krypton</span> </p></div>
+                    <div class="cell" onclick="openPopup('Xe', 54, 'Xenon', '131.29', 'Noble gas', 'Flash lamps')"> <p> <br> 54 Xe <br> <span style="font-size: 10px;">Xenon</span> </p></div>
+                    <div class="cell" onclick="openPopup('Rn', 86, 'Radon', '222', 'Noble gas', 'Radioactive gas')"> <p> <br> 86 Rn <br> <span style="font-size: 10px;">Radon</span> </p></div>
+                    <div class="cell" onclick="openPopup('Og', 118, 'Oganesson', '294', 'Noble gas', 'Heaviest element')"> <p> <br> 118 Og <br> <span style="font-size: 10px;">Oganesson</span> </p></div>
+                </div>
+            </div>
+
+            <div id="bottom-table">
+                <div class="row">
+                    <div class="cell" onclick="openPopup('Ce', 58, 'Cerium', '140.116', 'Lanthanide', 'Polishing glass')"> <p> <br> 58 Ce <br> <span style="font-size: 10px;">Cerium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Pr', 59, 'Praseodymium', '140.907', 'Lanthanide', 'Magnets')"> <p> <br> 59 Pr <br> <span style="font-size: 10px;">Praseodymium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Nd', 60, 'Neodymium', '144.242', 'Lanthanide', 'Strong magnets')"> <p> <br> 60 Nd <br> <span style="font-size: 10px;">Neodymium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Pm', 61, 'Promethium', '145', 'Lanthanide', 'Radioactive')"> <p> <br> 61 Pm <br> <span style="font-size: 10px;">Promethium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Sm', 62, 'Samarium', '150.36', 'Lanthanide', 'Magnets')"> <p> <br> 62 Sm <br> <span style="font-size: 10px;">Samarium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Eu', 63, 'Europium', '151.96', 'Lanthanide', 'TV phosphors')"> <p> <br> 63 Eu <br> <span style="font-size: 10px;">Europium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Gd', 64, 'Gadolinium', '157.25', 'Lanthanide', 'MRI contrast')"> <p> <br> 64 Gd <br> <span style="font-size: 10px;">Gadolinium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Tb', 65, 'Terbium', '158.93', 'Lanthanide', 'Green phosphors')"> <p> <br> 65 Tb <br> <span style="font-size: 10px;">Terbium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Dy', 66, 'Dysprosium', '162.50', 'Lanthanide', 'Lasers')"> <p> <br> 66 Dy <br> <span style="font-size: 10px;">Dysprosium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Ho', 67, 'Holmium', '164.93', 'Lanthanide', 'Magnetic uses')"> <p> <br> 67 Ho <br> <span style="font-size: 10px;">Holmium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Er', 68, 'Erbium', '167.26', 'Lanthanide', 'Fiber optics')"> <p> <br> 68 Er <br> <span style="font-size: 10px;">Erbium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Tm', 69, 'Thulium', '168.93', 'Lanthanide', 'Portable X‑ray')"> <p> <br> 69 Tm <br> <span style="font-size: 10px;">Thulium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Yb', 70, 'Ytterbium', '173.05', 'Lanthanide', 'Atomic clocks')"> <p> <br> 70 Yb <br> <span style="font-size: 10px;">Ytterbium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Lu', 71, 'Lutetium', '174.97', 'Lanthanide', 'PET scanners')"> <p> <br> 71 Lu <br> <span style="font-size: 10px;">Lutetium</span> </p></div>
+
+                </div>
+
+                <div class="row">
+                    <div class="cell" onclick="openPopup('Th', 90, 'Thorium', '232.04', 'Actinide', 'Nuclear fuel')"> <p> <br> 90 Th <br> <span style="font-size: 10px;">Thorium</span> </p> </div>
+                    <div class="cell" onclick="openPopup('Pa', 91, 'Protactinium', '231.04', 'Actinide', 'Radioactive')"> <p> <br> 91 Pa <br> <span style="font-size: 10px;">Protactinium</span> </p></div>
+                    <div class="cell" onclick="openPopup('U', 92, 'Uranium', '238.03', 'Actinide', 'Nuclear fuel')"> <p> <br> 92 U <br> <span style="font-size: 10px;">Uranium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Np', 93, 'Neptunium', '237.05', 'Actinide', 'Radioactive')"> <p> <br> 93 Np <br> <span style="font-size: 10px;">Neptunium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Pu', 94, 'Plutonium', '244.06', 'Actinide', 'Nuclear weapons')"> <p> <br> 94 Pu <br> <span style="font-size: 10px;">Plutonium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Am', 95, 'Americium', '243.06', 'Actinide', 'Smoke detectors')"> <p> <br> 95 Am <br> <span style="font-size: 10px;">Americium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Cm', 96, 'Curium', '247.07', 'Actinide', 'Research')"> <p> <br> 96 Cm <br> <span style="font-size: 10px;">Curium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Bk', 97, 'Berkelium', '247', 'Actinide', 'Synthetic')"> <p> <br> 97 Bk <br> <span style="font-size: 10px;">Berkelium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Cf', 98, 'Californium', '251', 'Actinide', 'Neutron source')"> <p> <br> 98 Cf <br> <span style="font-size: 10px;">Californium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Es', 99, 'Einsteinium', '252', 'Actinide', 'Synthetic')"> <p> <br> 99 Es <br> <span style="font-size: 10px;">Einsteinium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Fm', 100, 'Fermium', '257', 'Actinide', 'Synthetic')"> <p> <br> 100 Fm <br> <span style="font-size: 10px;">Fermium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Md', 101, 'Mendelevium', '258', 'Actinide', 'Synthetic')"> <p> <br> 101 Md <br> <span style="font-size: 10px;">Mendelevium</span> </p></div>
+                    <div class="cell" onclick="openPopup('No', 102, 'Nobelium', '259', 'Actinide', 'Synthetic')"> <p> <br> 102 No <br> <span style="font-size: 10px;">Nobelium</span> </p></div>
+                    <div class="cell" onclick="openPopup('Lr', 103, 'Lawrencium', '266', 'Actinide', 'Synthetic')"> <p> <br> 103 Lr <br> <span style="font-size: 10px;">Lawrencium</span> </p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+    <div class="popup" id="popup">
+        <div style="display:flex;justify-content:space-between">
+                <h2 id="symbol"></h2>
+                <button onclick="closePopup()">×</button>
+        </div>
+        <div class="info-row"><span>Name</span><span id="name"></span></div>
+        <div class="info-row"><span>Atomic No</span><span id="number"></span></div>
+        <div class="info-row"><span>Mass</span><span id="mass"></span></div>
+        <div class="info-row"><span>Category</span><span id="cat"></span></div>
+        <div class="info-row"><span>Description</span><span id="desc"></span></div>
+    </div>
+
+     <script>
+        function openPopup(s,n,na,m,c,d) {
+            document.getElementById('symbol').textContent = s;
+            document.getElementById('name').textContent = na;
+            document.getElementById('number').textContent = n;
+            document.getElementById('mass').textContent = m;
+            document.getElementById('cat').textContent = c;
+            document.getElementById('desc').textContent = d;
+
+            document.getElementById('popup').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>
